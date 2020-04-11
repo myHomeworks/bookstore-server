@@ -1,6 +1,9 @@
 package com.whu.WGSJ_Server.domain;
 
+import com.baomidou.mybatisplus.annotations.TableField;
 import com.baomidou.mybatisplus.annotations.TableId;
+
+import java.util.List;
 
 public class Book {
     @TableId
@@ -29,6 +32,28 @@ public class Book {
     private Integer salesT;
 
     private Integer salesM;
+
+    @TableField(exist = false)
+    private List<String> authorList;
+
+    @TableField(exist = false)
+    private String publisher;
+
+    public List<String> getAuthorList() {
+        return authorList;
+    }
+
+    public void setAuthorList(List<String> authorList) {
+        this.authorList = authorList;
+    }
+
+    public String getPublisher() {
+        return publisher;
+    }
+
+    public void setPublisher(String publisher) {
+        this.publisher = publisher;
+    }
 
     public String getBookId() {
         return bookId;

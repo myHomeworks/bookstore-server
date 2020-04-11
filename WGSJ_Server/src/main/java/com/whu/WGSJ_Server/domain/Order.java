@@ -20,6 +20,16 @@ public class Order {
 
     private Integer isDeleted;
 
+    private String remark;
+
+    public String getRemark() {
+        return remark;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark;
+    }
+
     public Integer getIsDeleted() {
         return isDeleted;
     }
