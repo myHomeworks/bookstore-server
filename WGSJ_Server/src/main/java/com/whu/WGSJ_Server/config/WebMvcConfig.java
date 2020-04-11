@@ -12,8 +12,6 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
     @Autowired
     private UploadConfig uploadConfig;
 
-//    private String path = "/resources/**";
-
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         System.out.println(uploadConfig.getStaticPath());

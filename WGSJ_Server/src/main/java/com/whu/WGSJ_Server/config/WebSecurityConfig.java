@@ -35,15 +35,15 @@ public class WebSecurityConfig {
         @Override
         protected void configure(HttpSecurity http) throws Exception {
             http
-                    .addFilterBefore(new CorsFilter(),UsernamePasswordAuthenticationFilter.class)
-                    .addFilterAfter(new TokenAuthenticationFilter(),
-                            BasicAuthenticationFilter.class)
+                    .addFilterBefore(new CorsFilter(), UsernamePasswordAuthenticationFilter.class)
+                    .addFilterAfter(new TokenAuthenticationFilter(), BasicAuthenticationFilter.class)
                     .authorizeRequests()
 
-//                    暂时关闭权限认证
-                    .antMatchers("/user/login","/admin/login","/resources/**","/socket/**", "/post/**").permitAll()
-                    .antMatchers("/admin","/**/admin/**").hasRole("ADMIN")
-                    .antMatchers("/**").hasRole("USER")
+                    .antMatchers("/resources/**").permitAll()
+                    .antMatchers("/admin/**").hasRole("ADMIN")
+                    .antMatchers("/user/**").hasRole("USER")
+                    // 后期需要改，限制游客访问接口
+                    .antMatchers("/visitor/**", "/admin/login", "/user/login").hasRole("VISITOR")
                     .and()
                     .csrf()
                     .disable()

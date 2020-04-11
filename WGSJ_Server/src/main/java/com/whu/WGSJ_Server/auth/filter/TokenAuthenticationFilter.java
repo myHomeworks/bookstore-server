@@ -25,7 +25,7 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
         if (context.getAuthentication() != null && context.getAuthentication().isAuthenticated() || req.getMethod().equals("GET")) {
             // do nothing
         } else {
-            String sessionKey = req.getHeader("sessionKey");
+            String sessionKey = req.getHeader("sessionId");
             String userId = req.getHeader("userId");
 
             if (sessionKey != null && userId != null) {

@@ -11,9 +11,9 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @MapperScan("com.whu.WGSJ_Server.mapper.*.mapper*")
 public class MybatisPlusConfig {
     @Bean
-    public PaginationInterceptor paginationInterceptor(){
+    public PaginationInterceptor paginationInterceptor() {
         PaginationInterceptor page = new PaginationInterceptor();
-        //设置方言类型
+        // 设置方言类型
         page.setDialectType("mysql");
         return page;
     }
