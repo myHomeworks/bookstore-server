@@ -17,7 +17,8 @@ public class TokenServiceImpl implements TokenService {
 
     @Override
     public UserDetails authenticateToken(@NonNull String token,String id) {
-        Object obj = redisService.getUserOrAdminBySessionId(token);
+        Object obj = redisService.getObjectInstanceBySessionId(token);
+
         if(obj!=null) {
             redisService.updateExpireTime(token);
             if (obj instanceof com.whu.WGSJ_Server.domain.User) {

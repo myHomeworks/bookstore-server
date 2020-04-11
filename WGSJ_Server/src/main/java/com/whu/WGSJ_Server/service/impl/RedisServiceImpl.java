@@ -1,8 +1,12 @@
 package com.whu.WGSJ_Server.service.impl;
 
+import com.whu.WGSJ_Server.domain.Admin;
+import com.whu.WGSJ_Server.domain.Visitor;
 import com.whu.WGSJ_Server.service.RedisService;
 import com.whu.WGSJ_Server.domain.User;
 import com.whu.WGSJ_Server.service.RedisService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
@@ -21,18 +25,16 @@ public class RedisServiceImpl implements RedisService {
     @Autowired
     private RedisTemplate redisTemplate;
 
-//    @Autowired
-//    private HashOperations<String,String,Object> opsForHash;
+    private static final Logger log = LoggerFactory.getLogger(RedisServiceImpl.class);
 
     @Override
     public String checkSessionId(String sessionId) {
-
         return stringRedisTemplate.opsForValue().get(sessionId);
     }
 
     @Override
     public void saveSessionId(String sessionId, String username) {
-        stringRedisTemplate.opsForValue().set(sessionId,username,30, TimeUnit.DAYS);
+        stringRedisTemplate.opsForValue().set(sessionId, username, 30, TimeUnit.DAYS);
 
     }
 
@@ -42,20 +44,25 @@ public class RedisServiceImpl implements RedisService {
     }
 
     @Override
-    public void saveUserOrAdminBySessionId(String sessionId, Object obj) {
+    public void saveObjectInstanceBySessionId(String sessionId, Object obj) {
         ValueOperations<String, Object> operations = redisTemplate.opsForValue();
-        if(obj instanceof User) operations.set(sessionId, obj,2,TimeUnit.HOURS);
-        else operations.set(sessionId, obj,60,TimeUnit.MINUTES);
+        if (obj instanceof User || obj instanceof Visitor) {
+            operations.set(sessionId, obj, 2, TimeUnit.HOURS);
+        } else if (obj instanceof Admin) {
+            operations.set(sessionId, obj, 60, TimeUnit.MINUTES);
+        } else {
+            log.error("Invalid Role!");
+        }
     }
 
     @Override
-    public Object getUserOrAdminBySessionId(String sessionId){
+    public Object getObjectInstanceBySessionId(String sessionId) {
         return redisTemplate.opsForValue().get(sessionId);
     }
 
     @Override
     public void updateExpireTime(String key) {
-        redisTemplate.expire(key,30,TimeUnit.MINUTES);
+        redisTemplate.expire(key, 30, TimeUnit.MINUTES);
     }
 
 

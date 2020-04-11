@@ -8,9 +8,9 @@ public interface RedisService {
 
     void delSessionId(String sessionId);
 
-    void saveUserOrAdminBySessionId(String sessionId, Object obj);
+    void saveObjectInstanceBySessionId(String sessionId, Object obj);
 
-    Object getUserOrAdminBySessionId(String sessionId);
+    Object getObjectInstanceBySessionId(String sessionId);
 
     void updateExpireTime(String key);
 }
