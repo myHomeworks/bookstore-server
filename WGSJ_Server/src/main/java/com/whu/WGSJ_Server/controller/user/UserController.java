@@ -1,4 +1,4 @@
-package com.whu.WGSJ_Server.controller;
+package com.whu.WGSJ_Server.controller.user;
 
 import com.alibaba.fastjson.JSONObject;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -22,7 +22,7 @@ import java.util.HashMap;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/user/user")
 @Component("UserController")
 public class UserController {
 

@@ -39,7 +39,7 @@ public class WebSecurityConfig {
                     .addFilterAfter(new TokenAuthenticationFilter(), BasicAuthenticationFilter.class)
                     .authorizeRequests()
 
-                    .antMatchers("/resources/**").permitAll()
+                    .antMatchers("/resources/**", "/user/**/**").permitAll()
                     .antMatchers("/admin/**").hasRole("ADMIN")
                     .antMatchers("/user/**").hasRole("USER")
                     // 后期需要改，限制游客访问接口
