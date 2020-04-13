@@ -76,6 +76,25 @@ CREATE TABLE `author_book` (
 
 /*Data for the table `author_book` */
 
+/*Table structure for table `banner` */
+
+DROP TABLE IF EXISTS `banner`;
+
+CREATE TABLE `banner` (
+  `BANNER_ID` varchar(36) NOT NULL,
+  `NAME` varchar(10) NOT NULL,
+  `IMAGE_URL` varchar(100) NOT NULL,
+  `CLICK_URL` varchar(100) NOT NULL DEFAULT '/',
+  `DATE` varchar(10) NOT NULL,
+  `QUEUE` int(10) NOT NULL,
+  `IS_ABANDON` int(1) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`BANNER_ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Data for the table `banner` */
+
+insert  into `banner`(`BANNER_ID`,`NAME`,`IMAGE_URL`,`CLICK_URL`,`DATE`,`QUEUE`,`IS_ABANDON`) values ('asdfghjklqwertyuiopzxcvbnmasdfghj130','书香节','/resources/images/banners/2020-04-12/books1.jpg','/','2020-04-13',1,0),('asdfghjklqwertyuiopzxcvbnmasdfghj131','书香节','/resources/images/banners/2020-04-12/books2.jpg','/','2020-04-13',2,0),('asdfghjklqwertyuiopzxcvbnmasdfghj132','书香节','/resources/images/banners/2020-04-12/books3.jpg','/','2020-04-13',3,0),('asdfghjklqwertyuiopzxcvbnmasdfghj133','书香节','/resources/images/banners/2020-04-12/books4.jpg','/','2020-04-13',4,0),('asdfghjklqwertyuiopzxcvbnmasdfghj140','书香节','/resources/images/banners/2020-04-12/books1.jpg','/','2020-04-14',1,0),('asdfghjklqwertyuiopzxcvbnmasdfghj141','书香节','/resources/images/banners/2020-04-12/books2.jpg','/','2020-04-14',2,0),('asdfghjklqwertyuiopzxcvbnmasdfghj142','书香节','/resources/images/banners/2020-04-12/books3.jpg','/','2020-04-14',3,0),('asdfghjklqwertyuiopzxcvbnmasdfghj143','书香节','/resources/images/banners/2020-04-12/books4.jpg','/','2020-04-14',4,0),('asdfghjklqwertyuiopzxcvbnmasdfghj150','书香节','/resources/images/banners/2020-04-12/books1.jpg','/','2020-04-15',1,0),('asdfghjklqwertyuiopzxcvbnmasdfghj151','书香节','/resources/images/banners/2020-04-12/books2.jpg','/','2020-04-15',2,0),('asdfghjklqwertyuiopzxcvbnmasdfghj152','书香节','/resources/images/banners/2020-04-12/books3.jpg','/','2020-04-15',3,0),('asdfghjklqwertyuiopzxcvbnmasdfghj153','书香节','/resources/images/banners/2020-04-12/books4.jpg','/','2020-04-15',4,0),('asdfghjklqwertyuiopzxcvbnmasdfghj160','书香节','/resources/images/banners/2020-04-12/books1.jpg','/','2020-04-16',1,0),('asdfghjklqwertyuiopzxcvbnmasdfghj161','书香节','/resources/images/banners/2020-04-12/books2.jpg','/','2020-04-16',2,0),('asdfghjklqwertyuiopzxcvbnmasdfghj162','书香节','/resources/images/banners/2020-04-12/books3.jpg','/','2020-04-16',3,0),('asdfghjklqwertyuiopzxcvbnmasdfghj163','书香节','/resources/images/banners/2020-04-12/books4.jpg','/','2020-04-16',4,0),('asdfghjklqwertyuiopzxcvbnmasdfghj170','书香节','/resources/images/banners/2020-04-12/books1.jpg','/','2020-04-17',1,0),('asdfghjklqwertyuiopzxcvbnmasdfghj171','书香节','/resources/images/banners/2020-04-12/books2.jpg','/','2020-04-17',2,0),('asdfghjklqwertyuiopzxcvbnmasdfghj172','书香节','/resources/images/banners/2020-04-12/books3.jpg','/','2020-04-17',3,0),('asdfghjklqwertyuiopzxcvbnmasdfghj173','书香节','/resources/images/banners/2020-04-12/books4.jpg','/','2020-04-17',4,0),('asdfghjklqwertyuiopzxcvbnmasdfghj180','书香节','/resources/images/banners/2020-04-12/books1.jpg','/','2020-04-18',1,0),('asdfghjklqwertyuiopzxcvbnmasdfghj181','书香节','/resources/images/banners/2020-04-12/books2.jpg','/','2020-04-18',2,0),('asdfghjklqwertyuiopzxcvbnmasdfghj182','书香节','/resources/images/banners/2020-04-12/books3.jpg','/','2020-04-18',3,0),('asdfghjklqwertyuiopzxcvbnmasdfghj183','书香节','/resources/images/banners/2020-04-12/books4.jpg','/','2020-04-18',4,0),('asdfghjklqwertyuiopzxcvbnmasdfghjkl0','书香节','/resources/images/banners/2020-04-12/books1.jpg','/','2020-04-12',1,0),('asdfghjklqwertyuiopzxcvbnmasdfghjkl1','书香节','/resources/images/banners/2020-04-12/books2.jpg','/','2020-04-12',2,0),('asdfghjklqwertyuiopzxcvbnmasdfghjkl2','书香节','/resources/images/banners/2020-04-12/books3.jpg','/','2020-04-12',3,0),('asdfghjklqwertyuiopzxcvbnmasdfghjkl3','书香节','/resources/images/banners/2020-04-12/books4.jpg','/','2020-04-12',4,0);
+
 /*Table structure for table `book` */
 
 DROP TABLE IF EXISTS `book`;
@@ -93,6 +112,17 @@ CREATE TABLE `book` (
   `SALES_T` int(5) NOT NULL,
   `SALES_M` int(5) NOT NULL,
   `PREVIEW_URL` varchar(100) NOT NULL,
+  `TIME` varchar(20) NOT NULL,
+  `FULL_NAME` varchar(100) NOT NULL,
+  `ISBN` varchar(20) NOT NULL,
+  `PUBLISH_DATE` varchar(10) NOT NULL,
+  `yin_ci` int(10) NOT NULL DEFAULT '1',
+  `PAGE_TOTAL` int(10) DEFAULT NULL,
+  `CHARACTER_TOTAL` int(10) DEFAULT NULL,
+  `kai_ben` varchar(10) NOT NULL,
+  `paper_type` varchar(10) NOT NULL,
+  `bao_zhuang` varchar(10) NOT NULL,
+  `tao_zhuang` int(1) NOT NULL,
   PRIMARY KEY (`BOOK_ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -103,7 +133,7 @@ CREATE TABLE `book` (
 DROP TABLE IF EXISTS `book_detail`;
 
 CREATE TABLE `book_detail` (
-  `BOOK_D` varchar(36) NOT NULL,
+  `BOOK_D` varchar(40) NOT NULL,
   `BOOK_ID` varchar(36) NOT NULL,
   `DETAIL_URL` varchar(100) NOT NULL,
   PRIMARY KEY (`BOOK_D`)
@@ -116,7 +146,7 @@ CREATE TABLE `book_detail` (
 DROP TABLE IF EXISTS `book_intro`;
 
 CREATE TABLE `book_intro` (
-  `BOOK_I` varchar(36) NOT NULL,
+  `BOOK_I` varchar(40) NOT NULL,
   `BOOK_ID` varchar(36) NOT NULL,
   `INTRO_URL` varchar(100) NOT NULL,
   PRIMARY KEY (`BOOK_I`)
@@ -164,6 +194,7 @@ CREATE TABLE `order` (
   `TIME` varchar(20) NOT NULL,
   `STATE` varchar(10) NOT NULL,
   `IS_DELETED` int(1) NOT NULL DEFAULT '0',
+  `remark` varchar(100) NOT NULL,
   PRIMARY KEY (`ORDER_ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
