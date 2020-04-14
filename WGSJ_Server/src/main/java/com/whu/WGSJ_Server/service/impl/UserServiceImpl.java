@@ -29,16 +29,22 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<User> getUsersAll(Page<User> page, String startTime, String endTime) {
         return userMapper.selectPage(page, new EntityWrapper<User>()
-                .ge("time", startTime)
-                .le("time", endTime)
-                .orderBy("time", false));
+                .ge("`time`", startTime)
+                .le("`time`", endTime)
+                .orderBy("`time`", false));
     }
 
     @Override
     public List<User> getUsersByNickname(String nickname, Page<User> page) {
         return userMapper.selectPage(page, new EntityWrapper<User>()
-                .like("name", nickname)
-                .orderBy("time", false));
+                .like("`name`", nickname)
+                .orderBy("`time`", false));
+    }
+
+    @Override
+    public List<User> getUsersList(Page<User> page) {
+        return userMapper.selectPage(page, new EntityWrapper<User>()
+                .orderBy("`time`", false));
     }
 
     @Override

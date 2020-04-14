@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.plugins.Page;
 import com.whu.WGSJ_Server.domain.*;
 import com.whu.WGSJ_Server.mapper.*;
 import com.whu.WGSJ_Server.service.BookService;
+import com.whu.WGSJ_Server.domain.Publisher;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -28,6 +29,16 @@ public class BookServiceImpl implements BookService {
     private PublisherBookMapper publisherBookMapper;
 
     @Override
+    public List<Book> getRecommend(Page<Book> page, String userId) {
+        // 这个是首页每日推荐的书籍，没有用户数据，直接用乱序(userId没用到)
+        List<Book> books = bookMapper.selectPage(page, new EntityWrapper<Book>()
+                .orderBy("RAND()"));
+        this.setPublisherForBook(books);
+        this.setAuthorsForBook(books);
+        return books;
+    }
+
+    @Override
     public Integer updateBook(Book book) {
         return bookMapper.updateById(book);
     }
@@ -44,8 +55,10 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public Book getBookById(String bookId) {
-
-        return bookMapper.selectById(bookId);
+        Book book = bookMapper.selectById(bookId);
+        this.setPublisherForBook(book);
+        this.setAuthorsForBook(book);
+        return book;
     }
 
     @Override
@@ -95,13 +108,44 @@ public class BookServiceImpl implements BookService {
         }
 
         // return
-        return bookMapper.selectPage(page, new EntityWrapper<Book>()
+        List<Book> books = bookMapper.selectPage(page, new EntityWrapper<Book>()
                 .in("book_id", bookIds)
                 .like("name", bookName == null ? "" : bookName)
                 .ge("time", startTime)
                 .le("time", endTime)
                 .le("price_n", startPrice)
                 .ge("price_n", endPrice));
+        this.setAuthorsForBook(books);
+        this.setPublisherForBook(books);
+        return books;
+    }
+
+    private void setPublisherForBook(List<Book> books) {
+        for (Book book : books) {
+            this.setAuthorsForBook(book);
+        }
+    }
+
+    private void setPublisherForBook(Book book) {
+        List<PublisherBook> publisherBooks = publisherBookMapper.selectList(new EntityWrapper<PublisherBook>()
+                .eq("book_id", book.getBookId()));
+        book.setPublisher(publisherMapper.selectById(publisherBooks.get(0).getPublisherId()).getName());
+    }
+
+    private void setAuthorsForBook(List<Book> books) {
+        for (Book book : books) {
+            this.setAuthorsForBook(book);
+        }
+    }
+
+    private void setAuthorsForBook(Book book) {
+        List<AuthorBook> authorBooks = authorBookMapper.selectList(new EntityWrapper<AuthorBook>()
+                .eq("book_id", book.getBookId()));
+        List<String> authorsName = new ArrayList<String>();
+        for (AuthorBook authorBook : authorBooks) {
+            authorsName.add(authorMapper.selectById(authorBook.getAuthorId()).getName());
+        }
+        book.setAuthorList(authorsName);
     }
 
 }

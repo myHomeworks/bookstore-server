@@ -15,8 +15,10 @@ public interface UserService {
 
     List<User> getUsersByNickname(String nickname, Page<User> page);
 
+    List<User> getUsersList(Page<User> page);
     // 普通用户与后台管理公共接口
     User getUserById(String userId);
 
     Integer updateUser(User user);
+
 }

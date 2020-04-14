@@ -7,6 +7,7 @@ import java.util.List;
 
 public interface BookService {
     // 普通用户的
+    List<Book> getRecommend(Page<Book> page, String userId);
 
     // 管理员的
     Integer updateBook(Book book);

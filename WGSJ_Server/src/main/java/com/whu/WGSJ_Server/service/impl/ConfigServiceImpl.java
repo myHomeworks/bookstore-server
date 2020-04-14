@@ -22,7 +22,7 @@ public class ConfigServiceImpl implements ConfigService {
     @Override
     public Config getConfigByKey(String key) {
         List<Config> configs = configMapper.selectList(new EntityWrapper<Config>()
-                .eq("key", key));
+                .eq("`key`", key));
         return configs.size() > 0 ? configs.get(0) : null;
     }
 

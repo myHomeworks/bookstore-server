@@ -4,18 +4,18 @@ import com.baomidou.mybatisplus.annotations.TableId;
 
 public class AuthorBook {
     @TableId
-    private String adId;
+    private String abId;
 
     private String authorId;
 
     private String bookId;
 
-    public String getAdId() {
-        return adId;
+    public String getAbId() {
+        return abId;
     }
 
-    public void setAdId(String adId) {
-        this.adId = adId;
+    public void setAbId(String abId) {
+        this.abId = abId;
     }
 
     public String getAuthorId() {
