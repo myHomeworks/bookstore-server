@@ -118,15 +118,19 @@ public class UserController {
     // 更新老用户的部分信息
     private void updateUser(User user, JSONObject object) {
         JSONObject userInfo = (JSONObject) object.get("userInfo");
-        user.setName(userInfo.getString("nickName"));
-        user.setGender(userInfo.getInteger("gender"));
-        user.setAvatar(userInfo.getString("avatarUrl"));
+        if(userInfo!=null){
+            user.setName(userInfo.getString("nickName"));
+            user.setGender(userInfo.getInteger("gender"));
+            user.setAvatar(userInfo.getString("avatarUrl"));
+        }
 
         JSONObject location = (JSONObject) object.get("location");
-        double latitude = location.getBigDecimal("latitude").doubleValue();
-        double longitude = location.getBigDecimal("longitude").doubleValue();
-        user.setLatitude(latitude);
-        user.setLongitude(longitude);
+        if(location!=null){
+            double latitude = location.getBigDecimal("latitude").doubleValue();
+            double longitude = location.getBigDecimal("longitude").doubleValue();
+            user.setLatitude(latitude);
+            user.setLongitude(longitude);
+        }
 
         String userSessionId = UUID.randomUUID().toString();
         user.setSessionId(userSessionId);

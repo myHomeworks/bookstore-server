@@ -22,7 +22,7 @@ public class BookController {
     @Autowired
     private BookService bookService;
 
-    @PostMapping("recommend")
+    @PostMapping("/recommend")
     public HashMap<String, Object> recommend(@RequestBody String body){
         HashMap<String, Object> ret = new HashMap<>();
         JSONObject object = JSONObject.parseObject(body);
@@ -37,7 +37,7 @@ public class BookController {
         return ret;
     }
 
-    @PostMapping("classification")
+    @PostMapping("/classification")
     public HashMap<String, Object> classification(@RequestBody String body){
         HashMap<String, Object> ret = new HashMap<>();
         JSONObject object = JSONObject.parseObject(body);
