@@ -2,6 +2,8 @@ package com.whu.WGSJ_Server.service;
 
 import com.baomidou.mybatisplus.plugins.Page;
 import com.whu.WGSJ_Server.domain.Book;
+import com.whu.WGSJ_Server.domain.BookDetail;
+import com.whu.WGSJ_Server.domain.BookIntro;
 
 import java.util.List;
 
@@ -15,6 +17,14 @@ public interface BookService {
     Integer addBook(Book book);
 
     Integer deleteBookById(String bookId); // 假删除（订单外键）
+
+    Integer addBookIntro(BookIntro bookIntro);
+
+    Integer addBookDetail(BookDetail bookDetail);
+
+    Integer delBookIntroById(String bookI);
+
+    Integer delBookDetailById(String bookD);
 
     // 公共的
     Book getBookById(String bookId);

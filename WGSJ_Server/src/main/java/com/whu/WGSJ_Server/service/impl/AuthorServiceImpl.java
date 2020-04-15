@@ -1,5 +1,6 @@
 package com.whu.WGSJ_Server.service.impl;
 
+import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.whu.WGSJ_Server.domain.Author;
 import com.whu.WGSJ_Server.domain.AuthorBook;
 import com.whu.WGSJ_Server.domain.Book;
@@ -33,5 +34,15 @@ public class AuthorServiceImpl implements AuthorService {
     @Override
     public Author getAuthorById(String authorId) {
         return authorMapper.selectById(authorId);
+    }
+
+    @Override
+    public Author getAuthorByName(String name) {
+        List<Author> authors = authorMapper.selectList(new EntityWrapper<Author>()
+                .eq("name", name));
+        if (authors == null)
+            return null;
+        else
+            return authors.get(0);
     }
 }

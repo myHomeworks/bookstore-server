@@ -28,6 +28,12 @@ public class BookServiceImpl implements BookService {
     @Autowired
     private PublisherBookMapper publisherBookMapper;
 
+    @Autowired
+    private BookIntroMapper bookIntroMapper;
+
+    @Autowired
+    private BookDetailMapper bookDetailMapper;
+
     @Override
     public List<Book> getRecommend(Page<Book> page, String userId) {
         // 这个是首页每日推荐的书籍，没有用户数据，直接用乱序(userId没用到)
@@ -35,6 +41,9 @@ public class BookServiceImpl implements BookService {
                 .orderBy("RAND()"));
         this.setPublisherForBook(books);
         this.setAuthorsForBook(books);
+        this.setBookDetail(books);
+        this.setBookIntro(books);
+
         return books;
     }
 
@@ -54,10 +63,33 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
+    public Integer addBookIntro(BookIntro bookIntro) {
+        return bookIntroMapper.insert(bookIntro);
+    }
+
+    @Override
+    public Integer addBookDetail(BookDetail bookDetail) {
+        return bookDetailMapper.insert(bookDetail);
+    }
+
+    @Override
+    public Integer delBookIntroById(String bookI) {
+        return bookIntroMapper.deleteById(bookI);
+    }
+
+    @Override
+    public Integer delBookDetailById(String bookD) {
+        return bookDetailMapper.deleteById(bookD);
+    }
+
+    @Override
     public Book getBookById(String bookId) {
         Book book = bookMapper.selectById(bookId);
         this.setPublisherForBook(book);
         this.setAuthorsForBook(book);
+        this.setBookDetail(book);
+        this.setBookIntro(book);
+
         return book;
     }
 
@@ -122,7 +154,7 @@ public class BookServiceImpl implements BookService {
 
     private void setPublisherForBook(List<Book> books) {
         for (Book book : books) {
-            this.setAuthorsForBook(book);
+            this.setPublisherForBook(book);
         }
     }
 
@@ -146,6 +178,38 @@ public class BookServiceImpl implements BookService {
             authorsName.add(authorMapper.selectById(authorBook.getAuthorId()).getName());
         }
         book.setAuthorList(authorsName);
+    }
+
+    private void setBookIntro(List<Book> books){
+        for(Book book: books){
+            this.setBookIntro(book);
+        }
+    }
+
+    private void setBookIntro(Book book) {
+        List<BookIntro> bookIntros = bookIntroMapper.selectList(new EntityWrapper<BookIntro>()
+                .eq("book_id", book.getBookId()));
+        List<String> introUrls = new ArrayList<>();
+        for (BookIntro bookIntro : bookIntros) {
+            introUrls.add(bookIntro.getIntroUrl());
+        }
+        book.setIntroList(introUrls);
+    }
+
+    private void setBookDetail(List<Book> books){
+        for(Book book: books){
+            this.setBookDetail(book);
+        }
+    }
+
+    private void setBookDetail(Book book) {
+        List<BookDetail> bookDetails = bookDetailMapper.selectList(new EntityWrapper<BookDetail>()
+                .eq("book_id", book.getBookId()));
+        List<String> detailUrls = new ArrayList<>();
+        for(BookDetail bookDetail: bookDetails){
+            detailUrls.add(bookDetail.getDetailUrl());
+        }
+        book.setDetailList(detailUrls);
     }
 
 }

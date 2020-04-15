@@ -11,4 +11,6 @@ public interface PublisherService {
     Integer updatePublisher(Publisher publisher);
 
     Publisher getPublisherById(String publisherId);
+
+    Publisher getPublisherByName(String name);
 }

@@ -39,6 +39,14 @@ public class Book {
     @TableField(exist = false)
     private String publisher;
 
+    @TableField(exist = false)
+    private List<String> introList;
+
+    @TableField(exist = false)
+    private List<String> detailList;
+
+    private String time;
+
     private String fullName;
 
     private String Isbn;
@@ -61,6 +69,30 @@ public class Book {
     private Integer taoZhuang;
 
     private String classId;
+
+    public List<String> getIntroList() {
+        return introList;
+    }
+
+    public void setIntroList(List<String> introList) {
+        this.introList = introList;
+    }
+
+    public List<String> getDetailList() {
+        return detailList;
+    }
+
+    public void setDetailList(List<String> detailList) {
+        this.detailList = detailList;
+    }
+
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
+    }
 
     public String getClassId() {
         return classId;

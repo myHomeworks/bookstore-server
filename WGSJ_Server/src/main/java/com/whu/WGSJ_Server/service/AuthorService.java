@@ -16,4 +16,6 @@ public interface AuthorService {
 
     Author getAuthorById(String authorId);
 
+    Author getAuthorByName(String name);
+
 }
