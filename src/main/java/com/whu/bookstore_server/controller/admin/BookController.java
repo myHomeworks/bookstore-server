@@ -3,20 +3,22 @@ package com.whu.bookstore_server.controller.admin;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.TypeReference;
 import com.baomidou.mybatisplus.plugins.Page;
+import com.whu.bookstore_server.config.UploadConfig;
 import com.whu.bookstore_server.domain.*;
 import com.whu.bookstore_server.service.*;
+import com.whu.bookstore_server.utils.File;
+import com.whu.bookstore_server.utils.Util;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
+import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 @RestController
 @RequestMapping("/admin/book")
@@ -40,6 +42,11 @@ public class BookController {
     @Autowired
     private ClassificationService classService;
 
+    @Autowired
+    private UploadConfig uploadConfig;
+
+    private static final Logger log = LoggerFactory.getLogger(BookController.class);
+
     //    @PostMapping("/add")
 //    public HashMap<String, Object> add(@RequestBody String body){
 //        HashMap<String, Object> ret = new HashMap<>();
@@ -53,6 +60,7 @@ public class BookController {
     @PostMapping("/add")
     public HashMap<String, Object> add(@RequestBody String body) {
         HashMap<String, Object> ret = new HashMap<>();
+        JSONObject object = JSONObject.parseObject(body);
         Book book = JSONObject.parseObject(body, new TypeReference<Book>() {
         });
         if (book.getBookId() == null || book.getBookId().equals("")) {
@@ -64,9 +72,34 @@ public class BookController {
         this.handleBookAuthor(book);
         this.handleBookPublisher(book);
 
+        book.setCharge(Util.round(book.getPriceN() / book.getPriceT(), 2, BigDecimal.ROUND_HALF_UP));
         book.setTime(dateFormat.format(new Date()));
+        book.setFullName(book.getName());
         bookService.addBook(book);
         ret.put("state", "ok");
+        return ret;
+    }
+
+    @PostMapping("/upload")
+    public HashMap<String, Object> uploadFile(HttpServletRequest request, @RequestParam("file") MultipartFile[] files) {
+        HashMap<String, Object> ret = new HashMap<>();
+        if (files != null && files.length >= 1) {
+            try {
+                for (MultipartFile file : files) {
+//                    String xx = request.getParameter("xx");
+                    String type = File.getFileTypeByName(Objects.requireNonNull(file.getOriginalFilename())); // 文件后缀
+                    String fileName = UUID.randomUUID().toString() + type;
+                    String relativePath = "/images/books/" +
+                            new SimpleDateFormat("yyyy-MM-dd").format(new Date()) + "/";
+                    File.writeFile(file.getBytes(), uploadConfig.getUploadPath() + relativePath, fileName);
+                    ret.put("state", "ok");
+                    ret.put("path", relativePath + fileName);
+                }
+            } catch (Exception ex) {
+                log.error("/admin/book/upload" + ex.getMessage());
+                ret.put("state", "failUpload");
+            }
+        }
         return ret;
     }
 

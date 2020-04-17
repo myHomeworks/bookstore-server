@@ -23,15 +23,15 @@ public class Book {
 
     private Double charge;
 
-    private Double star;
+    private Double star = 0.0;
 
-    private Integer stock;
+    private Integer stock = 200; // 存货剩余
 
-    private Integer reviewsT;
+    private Integer reviewsT = 0;
 
-    private Integer salesT;
+    private Integer salesT = 0;
 
-    private Integer salesM;
+    private Integer salesM = 0;
 
     @TableField(exist = false)
     private List<String> authorList;
@@ -58,7 +58,7 @@ public class Book {
 
     private Integer pageTotal;
 
-    private Integer characterTotal;
+    private Long characterTotal;
 
     private String kaiBen;
     // 纸张
@@ -66,7 +66,7 @@ public class Book {
     // 包装
     private String baoZhuang;
     // 是否套装
-    private Integer taoZhuang;
+    private String taoZhuang;
 
     private String classId;
 
@@ -142,11 +142,11 @@ public class Book {
         this.pageTotal = pageTotal;
     }
 
-    public Integer getCharacterTotal() {
+    public Long getCharacterTotal() {
         return characterTotal;
     }
 
-    public void setCharacterTotal(Integer characterTotal) {
+    public void setCharacterTotal(Long characterTotal) {
         this.characterTotal = characterTotal;
     }
 
@@ -174,11 +174,11 @@ public class Book {
         this.baoZhuang = baoZhuang;
     }
 
-    public Integer getTaoZhuang() {
+    public String getTaoZhuang() {
         return taoZhuang;
     }
 
-    public void setTaoZhuang(Integer taoZhuang) {
+    public void setTaoZhuang(String taoZhuang) {
         this.taoZhuang = taoZhuang;
     }
 
