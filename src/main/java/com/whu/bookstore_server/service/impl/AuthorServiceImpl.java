@@ -40,7 +40,7 @@ public class AuthorServiceImpl implements AuthorService {
     public Author getAuthorByName(String name) {
         List<Author> authors = authorMapper.selectList(new EntityWrapper<Author>()
                 .eq("name", name));
-        if (authors == null)
+        if (authors.size() == 0)
             return null;
         else
             return authors.get(0);

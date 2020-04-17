@@ -38,7 +38,7 @@ public class PublisherServiceImpl implements PublisherService {
     public Publisher getPublisherByName(String name) {
         List<Publisher> publishers = publisherMapper.selectList(new EntityWrapper<Publisher>()
                 .eq("name", name));
-        if (publishers == null)
+        if (publishers.size() == 0)
             return null;
         else
             return publishers.get(0);
