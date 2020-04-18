@@ -145,10 +145,13 @@ public class BookServiceImpl implements BookService {
                 .like("name", bookName == null ? "" : bookName)
                 .ge("time", startTime)
                 .le("time", endTime)
-                .le("price_n", startPrice)
-                .ge("price_n", endPrice));
+                .ge("price_n", startPrice)
+                .le("price_n", endPrice));
         this.setAuthorsForBook(books);
         this.setPublisherForBook(books);
+        this.setBookDetail(books);
+        this.setBookIntro(books);
+
         return books;
     }
 

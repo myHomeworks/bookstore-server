@@ -127,7 +127,7 @@ public class OrderServiceImpl implements OrderService {
                 .in("address_id", addressIds)
                 .ge("time", startTime)
                 .le("time", endTime)
-                .le("payed_money", startPrice)
-                .ge("payed_money", endPrice));
+                .ge("payed_money", startPrice)
+                .le("payed_money", endPrice));
     }
 }
