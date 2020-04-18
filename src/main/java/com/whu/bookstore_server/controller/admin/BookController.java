@@ -89,7 +89,7 @@ public class BookController {
 //                    String xx = request.getParameter("xx");
                     String type = File.getFileTypeByName(Objects.requireNonNull(file.getOriginalFilename())); // 文件后缀
                     String fileName = UUID.randomUUID().toString() + type;
-                    String relativePath = "/images/books/" +
+                    String relativePath = "images/books/" +
                             new SimpleDateFormat("yyyy-MM-dd").format(new Date()) + "/";
                     File.writeFile(file.getBytes(), uploadConfig.getUploadPath() + relativePath, fileName);
                     ret.put("state", "ok");

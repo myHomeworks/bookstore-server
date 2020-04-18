@@ -24,7 +24,7 @@ mybatis-plus:
   type-aliases-package: com.whu.bookstore_server.domain
 
 xcloud:
-  uploadPath: /data/home/leo/projectMedia/bookstore/
+  uploadPath: E:/attach_file/wxBookstore/
   staticPath: resources
 
 logging:
