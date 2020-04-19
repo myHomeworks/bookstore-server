@@ -16,6 +16,22 @@ CREATE DATABASE /*!32312 IF NOT EXISTS*/`wgsj` /*!40100 DEFAULT CHARACTER SET ut
 
 USE `wgsj`;
 
+/*Table structure for table `ad` */
+
+DROP TABLE IF EXISTS `ad`;
+
+CREATE TABLE `ad` (
+  `AD_ID` varchar(36) NOT NULL,
+  `NAME` varchar(10) NOT NULL,
+  `IMAGE_URL` varchar(100) NOT NULL,
+  `CLICK_URL` varchar(100) NOT NULL DEFAULT '/',
+  `DATE` varchar(10) NOT NULL,
+  `QUEUE` int(10) NOT NULL,
+  `IS_ABANDON` int(1) NOT NULL DEFAULT '0',
+  `TYPE` varchar(10) NOT NULL DEFAULT 'banner',
+  PRIMARY KEY (`AD_ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 /*Table structure for table `address` */
 
 DROP TABLE IF EXISTS `address`;
@@ -35,7 +51,7 @@ CREATE TABLE `address` (
 DROP TABLE IF EXISTS `admin`;
 
 CREATE TABLE `admin` (
-  `ADMIN_ID` varchar(10) NOT NULL,
+  `ADMIN_ID` varchar(36) NOT NULL,
   `NAME` varchar(20) NOT NULL,
   `AVATAR` varchar(255) NOT NULL,
   `PWD` varchar(20) NOT NULL DEFAULT 'admin',
@@ -68,21 +84,6 @@ CREATE TABLE `author_book` (
   PRIMARY KEY (`AB_ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-/*Table structure for table `banner` */
-
-DROP TABLE IF EXISTS `banner`;
-
-CREATE TABLE `banner` (
-  `BANNER_ID` varchar(36) NOT NULL,
-  `NAME` varchar(10) NOT NULL,
-  `IMAGE_URL` varchar(100) NOT NULL,
-  `CLICK_URL` varchar(100) NOT NULL DEFAULT '/',
-  `DATE` varchar(10) NOT NULL,
-  `QUEUE` int(10) NOT NULL,
-  `IS_ABANDON` int(1) NOT NULL DEFAULT '0',
-  PRIMARY KEY (`BANNER_ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
 /*Table structure for table `book` */
 
 DROP TABLE IF EXISTS `book`;
@@ -103,15 +104,15 @@ CREATE TABLE `book` (
   `PREVIEW_URL` varchar(100) NOT NULL,
   `TIME` varchar(20) NOT NULL,
   `FULL_NAME` varchar(100) NOT NULL,
-  `ISBN` varchar(20) NOT NULL,
+  `ISBN` varchar(20) DEFAULT NULL,
   `PUBLISH_DATE` varchar(10) NOT NULL,
-  `yin_ci` int(10) NOT NULL DEFAULT '1',
+  `yin_ci` int(10) DEFAULT '1',
   `PAGE_TOTAL` int(10) DEFAULT NULL,
   `CHARACTER_TOTAL` int(10) DEFAULT NULL,
-  `kai_ben` varchar(10) NOT NULL,
-  `paper_type` varchar(10) NOT NULL,
+  `kai_ben` varchar(10) DEFAULT '32',
+  `PAPER_TYPE` varchar(10) NOT NULL,
   `bao_zhuang` varchar(10) NOT NULL,
-  `tao_zhuang` int(1) NOT NULL,
+  `tao_zhuang` varchar(10) NOT NULL,
   PRIMARY KEY (`BOOK_ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -161,11 +162,11 @@ CREATE TABLE `config` (
   PRIMARY KEY (`CONFIG_ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-/*Table structure for table `order` */
+/*Table structure for table `my_order` */
 
-DROP TABLE IF EXISTS `order`;
+DROP TABLE IF EXISTS `my_order`;
 
-CREATE TABLE `order` (
+CREATE TABLE `my_order` (
   `ORDER_ID` varchar(36) NOT NULL,
   `ADDRESS_ID` varchar(36) NOT NULL,
   `BOOK_ID` varchar(36) NOT NULL,
