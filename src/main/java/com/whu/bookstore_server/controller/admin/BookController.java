@@ -106,7 +106,7 @@ public class BookController {
     @PostMapping("/add")
     public HashMap<String, Object> add(@RequestBody String body) {
         HashMap<String, Object> ret = new HashMap<>();
-        JSONObject object = JSONObject.parseObject(body);
+//        JSONObject object = JSONObject.parseObject(body); // 调试用的
         Book book = JSONObject.parseObject(body, new TypeReference<Book>() {
         });
         if (book.getBookId() == null || book.getBookId().equals("")) {

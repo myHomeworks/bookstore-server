@@ -3,6 +3,7 @@ package com.whu.bookstore_server.controller.admin;
 import com.alibaba.fastjson.JSONObject;
 import com.whu.bookstore_server.domain.Classification;
 import com.whu.bookstore_server.service.ClassificationService;
+import com.whu.bookstore_server.utils.ClassList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -85,44 +86,5 @@ public class BookClassController {
         else
             ret.put("state", "failDelete");
         return ret;
-    }
-}
-
-class ClassList {
-    private String id;
-    private String name;
-    private List<String> pages;
-    private List<String> pagesId;
-
-    public List<String> getPagesId() {
-        return pagesId;
-    }
-
-    public void setPagesId(List<String> pagesId) {
-        this.pagesId = pagesId;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public List<String> getPages() {
-        return pages;
-    }
-
-    public void setPages(List<String> pages) {
-        this.pages = pages;
     }
 }
