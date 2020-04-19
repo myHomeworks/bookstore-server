@@ -63,6 +63,10 @@ public class UserController {
         JSONObject object = JSONObject.parseObject(body);
 
         String openId = this.getOpenIdFromCode(object.getString("code"));
+        if(openId == null){
+            ret.put("state", "failGetOpenId");
+            return ret;
+        }
         User user = userService.getUserById(openId);
 
         if (user == null) { // 创建新用户
@@ -94,13 +98,18 @@ public class UserController {
 
     // 发送微信request请求,通过code获得openId
     private String getOpenIdFromCode(String code) throws IOException {
-        RestTemplate restTemplate = new RestTemplate();
-        String params = "?appid=" + appId + "&secret=" + secret + "&js_code=" + code + "&grant_type=authorization_code";
-        String url = APIConfig.openIdURL + params;
-        String response = restTemplate.getForObject(url, String.class);
+        try{
+            RestTemplate restTemplate = new RestTemplate();
+            String params = "?appid=" + appId + "&secret=" + secret + "&js_code=" + code + "&grant_type=authorization_code";
+            String url = APIConfig.openIdURL + params;
+            String response = restTemplate.getForObject(url, String.class);
 
-        JsonNode node = this.mapper.readTree(response);
-        return node.get("openid").asText();
+            JsonNode node = this.mapper.readTree(response);
+            return node.get("openid").asText();
+        }catch (Exception ex){
+            log.error("Something Wrong When Get OpenId:code"+code+"\n"+ex.getMessage());
+            return null;
+        }
     }
 
     // 新注册时创建新用户
