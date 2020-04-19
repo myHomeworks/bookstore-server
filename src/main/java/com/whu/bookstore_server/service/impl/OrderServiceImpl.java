@@ -5,18 +5,17 @@ import com.baomidou.mybatisplus.plugins.Page;
 import com.whu.bookstore_server.domain.*;
 import com.whu.bookstore_server.mapper.*;
 import com.whu.bookstore_server.service.OrderService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Service("OrderService")
 public class OrderServiceImpl implements OrderService {
     @Autowired
-    private OrderMapper orderMapper;
+    private MyOrderMapper myOrderMapper;
 
     @Autowired
     private BookMapper bookMapper;
@@ -36,31 +35,68 @@ public class OrderServiceImpl implements OrderService {
     @Autowired
     private AddressMapper addressMapper;
 
+    private static final Logger log = LoggerFactory.getLogger(OrderServiceImpl.class);
+
     @Override
-    public Integer updateOrder(Order order) {
-        return orderMapper.updateById(order);
+    public List<MyOrder> getOrdersByUserId(String userId) {
+        return myOrderMapper.selectList(new EntityWrapper<MyOrder>()
+                .eq("user_id", userId)
+                .eq("if_delete", 0));
     }
 
     @Override
-    public Integer addOrder(Order order) {
-        return orderMapper.insert(order);
+    public Integer updateOrder(MyOrder myOrder) {
+        return myOrderMapper.updateById(myOrder);
     }
 
     @Override
-    public Order getOrderById(String orderId) {
-        return orderMapper.selectById(orderId);
+    public Boolean getOrderMoneyGraph(HashMap<String, Object> ret, Integer year) {
+        List<MyOrder> myOrders = myOrderMapper.selectList(new EntityWrapper<MyOrder>()
+                .ge("time", year + "-01-01")
+                .le("time", year + "-12-31"));
+        List<Double> totalIn = new ArrayList<>();
+        List<Double> totalEarning = new ArrayList<>();
+        for (int i = 0; i < 12; i++) {
+            totalIn.add(0.0);
+            totalEarning.add(0.0);
+        }
+        for (MyOrder myOrder: myOrders) {
+            try {
+                int month = Integer.parseInt(myOrder.getTime().substring(5, 7)) - 1;
+                totalIn.set(month, totalIn.get(month) + myOrder.getPayedMoney());
+                totalEarning.set(month, totalEarning.get(month) + myOrder.getPayedMoney() * 0.2);
+            } catch (Exception e) {
+                log.error("Fail when calculate order money\n"+e.getMessage());
+                return false;
+            }
+        }
+        ret.put("totalIn", totalIn);
+        ret.put("totalEarning", totalEarning);
+        return true;
+    }
+
+    @Override
+    public Integer addOrder(MyOrder myOrder) {
+        return myOrderMapper.insert(myOrder);
+    }
+
+    @Override
+    public MyOrder getOrderById(String orderId) {
+        return myOrderMapper.selectById(orderId);
     }
 
     @Override
     public Integer deleteOrderById(String orderId) {
-        return orderMapper.deleteById(orderId);
+        MyOrder myOrder = myOrderMapper.selectById(orderId);
+        myOrder.setIsDeleted(1);
+        return myOrderMapper.updateById(myOrder);
     }
 
     @Override
-    public List<Order> getOrdersByComplexConditions(Page<Order> page, String bookName, String authorName,
-                                                    String publisherName, String startTime, String endTime,
-                                                    Double startPrice, Double endPrice, String addressName,
-                                                    String consignee, String mobile) {
+    public List<MyOrder> getOrdersByComplexConditions(Page<MyOrder> page, String bookName, String authorName,
+                                                      String publisherName, String startTime, String endTime,
+                                                      Double startPrice, Double endPrice, String addressName,
+                                                      String consignee, String mobile) {
         // pre-handle the date
         addressName = addressName == null ? "" : addressName;
         consignee = consignee == null ? "" : consignee;
@@ -117,17 +153,18 @@ public class OrderServiceImpl implements OrderService {
                 .like("address", addressName)
                 .or()
                 .like("mobile", mobile));
-        for(Address address: addresses){
+        for (Address address : addresses) {
             addressIds.add(address.getAddressId());
         }
 
         // return
-        return orderMapper.selectPage(page, new EntityWrapper<Order>()
+        return myOrderMapper.selectPage(page, new EntityWrapper<MyOrder>()
                 .in("book_id", bookIds)
                 .in("address_id", addressIds)
                 .ge("time", startTime)
                 .le("time", endTime)
                 .ge("payed_money", startPrice)
-                .le("payed_money", endPrice));
+                .le("payed_money", endPrice)
+                .eq("if_delete", 0));
     }
 }

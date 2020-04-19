@@ -2,11 +2,11 @@ package com.whu.bookstore_server.domain;
 
 import com.baomidou.mybatisplus.annotations.TableId;
 
-public class Order {
+public class MyOrder {
     @TableId
     private String orderId;
 
-    private String addressId;
+    private String addressId = "ouuta5CoU25vhFbCX_Zr2nNma4Js";
 
     private String bookId;
 
@@ -14,13 +14,23 @@ public class Order {
 
     private Double payedMoney;
 
-    private String payType;
+    private String payType = "线上支付";
 
-    private String state;
+    private String state = "待发货";
 
-    private Integer isDeleted;
+    private Integer isDeleted = 0;
 
-    private String remark;
+    private String remark = "";
+
+    private String time;
+
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
+    }
 
     public String getRemark() {
         return remark;

@@ -46,15 +46,6 @@ public class BookController {
     private UploadConfig uploadConfig;
 
     private static final Logger log = LoggerFactory.getLogger(BookController.class);
-
-    //    @PostMapping("/add")
-//    public HashMap<String, Object> add(@RequestBody String body){
-//        HashMap<String, Object> ret = new HashMap<>();
-//        JSONObject object = JSONObject.parseObject(body);
-//
-//        ret.put("state", "ok");
-//        return ret;
-//    }
     private SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
     @PostMapping("/detail")
