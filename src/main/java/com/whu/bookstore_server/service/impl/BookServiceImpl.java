@@ -155,6 +155,20 @@ public class BookServiceImpl implements BookService {
         return books;
     }
 
+    @Override
+    public List<Book> getBookByClassId(Page<Book> page, String classId) {
+        List<Book> books = bookMapper.selectPage(page, new EntityWrapper<Book>()
+                .eq("class_id", classId)
+                .orderBy("time", false));
+
+        this.setAuthorsForBook(books);
+        this.setPublisherForBook(books);
+        this.setBookDetail(books);
+        this.setBookIntro(books);
+
+        return books;
+    }
+
     private void setPublisherForBook(List<Book> books) {
         for (Book book : books) {
             this.setPublisherForBook(book);
@@ -183,8 +197,8 @@ public class BookServiceImpl implements BookService {
         book.setAuthorList(authorsName);
     }
 
-    private void setBookIntro(List<Book> books){
-        for(Book book: books){
+    private void setBookIntro(List<Book> books) {
+        for (Book book : books) {
             this.setBookIntro(book);
         }
     }
@@ -199,8 +213,8 @@ public class BookServiceImpl implements BookService {
         book.setIntroList(introUrls);
     }
 
-    private void setBookDetail(List<Book> books){
-        for(Book book: books){
+    private void setBookDetail(List<Book> books) {
+        for (Book book : books) {
             this.setBookDetail(book);
         }
     }
@@ -209,7 +223,7 @@ public class BookServiceImpl implements BookService {
         List<BookDetail> bookDetails = bookDetailMapper.selectList(new EntityWrapper<BookDetail>()
                 .eq("book_id", book.getBookId()));
         List<String> detailUrls = new ArrayList<>();
-        for(BookDetail bookDetail: bookDetails){
+        for (BookDetail bookDetail : bookDetails) {
             detailUrls.add(bookDetail.getDetailUrl());
         }
         book.setDetailList(detailUrls);

@@ -33,4 +33,5 @@ public interface BookService {
     List<Book> getBookByComplexConditions(Page<Book> page, String bookName, String authorName, String publisherName,
                                           String startTime, String endTime, Double startPrice, Double endPrice);
 
+    List<Book> getBookByClassId(Page<Book> page, String classId);
 }
