@@ -10,32 +10,24 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
 @RestController
-@RequestMapping("/user/banner")
-@Component("BannerController")
-public class BannerController {
+@RequestMapping("/user/menu")
+@Component("MenuController")
+public class MenuController {
     @Autowired
     private AdService adService;
 
-    private SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-
-    @PostMapping("today")
-    public HashMap<String, Object> someday(@RequestBody String body){
+    @PostMapping("/all")
+    public HashMap<String, Object> all(@RequestBody String body) {
         HashMap<String, Object> ret = new HashMap<>();
-//        JSONObject object = JSONObject.parseObject(body);
-//        String userId = object.getString("userId");
-        String date = dateFormat.format(new Date());
-        List<Ad> banners = adService.getBannerByDate(date);
+        JSONObject object = JSONObject.parseObject(body);
+        List<Ad> menus = adService.getMenus();
 
+        ret.put("menus", menus);
         ret.put("state", "ok");
-        ret.put("banners", banners);
         return ret;
     }
 }
-
-

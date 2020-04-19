@@ -2,9 +2,9 @@ package com.whu.bookstore_server.domain;
 
 import com.baomidou.mybatisplus.annotations.TableId;
 
-public class Banner {
+public class Ad {
     @TableId
-    private String bannerId;
+    private String adId;
 
     private String name;
 
@@ -18,12 +18,22 @@ public class Banner {
 
     private Integer isAbandon;
 
-    public String getBannerId() {
-        return bannerId;
+    private String type;
+
+    public String getType() {
+        return type;
     }
 
-    public void setBannerId(String bannerId) {
-        this.bannerId = bannerId;
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public String getAdId() {
+        return adId;
+    }
+
+    public void setAdId(String adId) {
+        this.adId = adId;
     }
 
     public String getName() {
