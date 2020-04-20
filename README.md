@@ -1,4 +1,6 @@
 # wxWGSJ
+Link: https://github.com/myHomeworks/bookstore-server
+
 Network Engineering and Programming Practice - Homework  
 
 An example of bookstore e-commerce, which is based on Wechat miniprogram and Java Springboot, imitates the interface of Dangdang's wechat applet
